@@ -9,9 +9,15 @@ const productRouter=require("./routes/product");
 const cartRouter=require('./routes/cart');
 const orderRouter=require("./routes/order");
 const cors = require('cors');
+const corsConfig={
+  origin:"*",
+  Credential:true,
+  methods:["GET","POST","PUT","DELETE","PATCH"],
+};
 const razorRouter=require("./routes/payment");
 
-
+app.options("",cors(corsConfig))
+  app.use(cors(corsConfig));
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("db connection successful"))
@@ -19,7 +25,6 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
     console.log(err);
   });
 
-  app.use(cors());
 app.use(express.json()); //this ensures that json body is read and useful for postman requests
 app.use("/api/user",userRouter);
 app.use("/api/auth",authRouter);
@@ -32,7 +37,7 @@ app.use("/",(req,res)=>{
     {success:true,
     message:"Everything fine"}
   )
-})  
+})   
 
 app.listen(process.env.PORT||5000, () => {
   console.log("backend is running");
