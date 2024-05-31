@@ -42,6 +42,6 @@ app.use("/", (req, res) => {
   )
 })
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT||5000, () => {
   console.log("backend is running");
 });
